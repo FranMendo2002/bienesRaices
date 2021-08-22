@@ -6,7 +6,7 @@
             <a href="blog.php">Blog</a>
             <a href="contacto.php">Contacto</a>
         </nav>
-    </div> // HOLAA
+    </div>
 
     <p class="copyright">Todos los Derechos Reservados <?php echo date('Y'); ?> &copy;</p>
 </footer>
