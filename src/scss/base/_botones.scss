@@ -1,0 +1,12 @@
+.boton-amarillo {
+    @include boton($amarillo, inline-block); // Toma todo el espacio disponible
+}
+
+.boton-amarillo-block {
+    @include boton($amarillo, block); // Toma todo el espacio disponible
+}
+
+
+.boton-verde {
+    @include boton($verde, inline-block); // Toma el ancho necesario, minimo
+}
