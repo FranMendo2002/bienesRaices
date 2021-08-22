@@ -87,6 +87,6 @@
             </a>
         </div>
     </article>
-</main> aa
+</main>
 
 <?php incluirTemplate('footer'); ?>
