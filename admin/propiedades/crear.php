@@ -9,7 +9,7 @@ incluirTemplate('header');
 ?>
 
 <main class="contenedor seccion">
-    <h1>Crear</h1>
+    <h1>Crear</h1> agrego estas palabras para ver si la ssh key sigue configurada
 
     <a href="/admin" class="boton boton-verde">Volver</a>
 
