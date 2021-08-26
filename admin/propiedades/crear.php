@@ -22,19 +22,28 @@
     $estacionamiento = '';
     $vendedorId = '';
 
-    // Ejecutar el codigo después de qe el usuario envia el formulario
+    // Ejecutar el codigo después de que el usuario envia el formulario
     if ($_SERVER["REQUEST_METHOD"] === 'POST') {
+
         // echo "<pre>";
         // var_dump($_POST);
         // echo "</pre>";
 
-        $titulo = $_POST['titulo'];
-        $precio = $_POST['precio'];
-        $descripcion = $_POST['descripcion'];
-        $habitaciones = $_POST['habitaciones'];
-        $wc = $_POST['wc'];
-        $estacionamiento = $_POST['estacionamiento'];
-        $vendedorId = $_POST['vendedor'];
+        // echo "<pre>";
+        // var_dump($_FILES);
+        // echo "</pre>";
+
+        $titulo = mysqli_real_escape_string($db, $_POST['titulo'] );
+        $precio = mysqli_real_escape_string($db, $_POST['precio'] );
+        $descripcion = mysqli_real_escape_string($db, $_POST['descripcion'] );
+        $habitaciones = mysqli_real_escape_string($db, $_POST['habitaciones'] );
+        $wc = mysqli_real_escape_string($db, $_POST['wc'] );
+        $estacionamiento = mysqli_real_escape_string($db, $_POST['estacionamiento'] );
+        $vendedorId = mysqli_real_escape_string($db, $_POST['vendedor'] );
+        $creado = date('Y/m/d');
+
+        // Asignar files hacia una variable
+        $imagen = $_FILES["imagen"];
 
         if (!$titulo) {
             $errores[] = "Debes añadir un titulo";
@@ -63,29 +72,33 @@
         if (!$vendedorId) {
             $errores[] = "Elige un vendedor";
         }
-
-        // echo "<pre>";
-        // var_dump($errores);
-        // echo "</pre>";
+        if(!$imagen["name"] || $imagen["error"]){
+            $errores[] = "La imagen es obligatoria";
+        }
+        // Validar por tamaño (100kb maximo)
+        $medida = 1000 * 100;
+        
+        if($imagen["size"] > $medida) {
+            $errores[] = "La imagen es muy pesada";
+        }
 
         // Revisar que el arreglo de errores esté vacio
         if (empty($errores)) {
             // Insertar en la base de datos
-            $query = "INSERT INTO propiedades (titulo, precio, descripcion, habitaciones, wc, estacionamiento, vendedorId) VALUES ( '$titulo', '$precio', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$vendedorId' )";
+            $query = "INSERT INTO propiedades (titulo, precio, descripcion, habitaciones, wc, estacionamiento, creado, vendedorId) VALUES ( '$titulo', '$precio', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$creado' ,'$vendedorId' )";
             //echo $query;
 
             $resultado = mysqli_query($db, $query);
 
             if ($resultado) {
-                echo "Insertado correctamente";
+                // Redireccionar al usuario
+                header('Location: /admin');
             }
         }
     }
 
-require '../../includes/funciones.php';
-incluirTemplate('header');
-
-
+    require '../../includes/funciones.php';
+    incluirTemplate('header');
 ?>
 
 <main class="contenedor seccion">
@@ -99,7 +112,7 @@ incluirTemplate('header');
         </div>
     <?php } ?>
 
-    <form class="formulario" method="POST" action="/admin/propiedades/crear.php">
+    <form class="formulario" method="POST" action="/admin/propiedades/crear.php" enctype="multipart/form-data">
         <fieldset>
             <legend>Información General</legend>
 
@@ -110,7 +123,7 @@ incluirTemplate('header');
             <input name="precio" type="number" id="precio" placeholder="Precio de la propiedad" value="<?php echo $precio; ?>">
 
             <label for="imagen">Imagen:</label>
-            <input type="file" id="imagen" accept="image/jpeg, image/png">
+            <input name="imagen" type="file" id="imagen" accept="image/jpeg, image/png">
 
             <label for="imagen">Descripcion:</label>
             <textarea name="descripcion" id="descripcion"><?php echo $descripcion; ?></textarea>
@@ -126,7 +139,7 @@ incluirTemplate('header');
             <input name="wc" type="number" id="wc" placeholder="Ej: 3" min="1" max="9" value="<?php echo $wc; ?>">
 
             <label for="estacionamiento">Estacionamiento:</label>
-            <input name="estacionamiento" type="number" id="estacionamiento" placeholder="Ej: 3" min="1" max="9" value="<?php echo $estacionamiento; ?>">
+            <input name="estacionamiento" type="number" id="estacionamiento" placeholder="Ej: 3" min="0" max="9" value="<?php echo $estacionamiento; ?>">
         </fieldset>
 
         <fieldset>
