@@ -1,7 +1,6 @@
 <?php
 
 
-
 require 'includes/funciones.php';
 
 $inicio = true;
