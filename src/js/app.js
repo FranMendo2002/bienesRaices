@@ -3,6 +3,13 @@ document.addEventListener('DOMContentLoaded', function() {
     eventListeners();
 
     darkMode();
+
+    //Eliminar texto de confirmación de CRUD en admin/index.php
+    setInterval(function(){
+    const mensajeConfirm = document.querySelector('.alerta');
+            const padre = mensajeConfirm.parentElement;
+            padre.removeChild(mensajeConfirm);
+        }, 3500);
 });
 
 function darkMode() {

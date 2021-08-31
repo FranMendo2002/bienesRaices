@@ -18,6 +18,9 @@
         background-color: $naranja;
         margin-bottom: 1rem;
     }
+    &.eliminado {
+        background-color: $fucsia;
+    }
 }
 
 table.propiedades {
