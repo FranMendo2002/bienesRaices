@@ -1,14 +1,22 @@
 <?php
 
+    // Importar la conexion
+    require '../includes/config/database.php';
+    $db = conectarDB();
+
+    // Escribir el Query
+    $query = "SELECT * FROM propiedades";
+
+    // Consultar la base de datos
+    $resultadoConsulta = mysqli_query($db, $query);
 
 
+// Muestra mensaje condicional
+    $resultado = $_GET['resultado'] ?? null; // Revisa si existe el get, si no, asigna null
 
-$resultado = $_GET['resultado'] ?? null; // Revisa si existe el get, si no, asigna null
-
-
-
-require '../includes/funciones.php';
-incluirTemplate('header');
+    // Incluye un template
+    require '../includes/funciones.php';
+    incluirTemplate('header');
 ?>
 
 <main class="contenedor seccion">
@@ -33,19 +41,29 @@ incluirTemplate('header');
             </tr>
         </thead>
 
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td>Casa en la playa</td>
-                <td><img src="/imagenes/06fa68258a6bff53f33417282cf237cc.jpg" class="imagen-tabla"></td>
-                <td>4200000</td>
-                <td>
-                    <a href="#" class="boton-rojo-block">Eliminar</a>
-                    <a href="#" class="boton-amarillo-block">Actualizar</a>
-                </td>
-            </tr>
+        <tbody> <!-- Mostrar los resultados -->
+            <?php while( $propiedad = mysqli_fetch_assoc($resultadoConsulta) ): ?>
+                <tr>
+                    <td> <?php echo $propiedad['id'] ?> </td>
+                    <td> <?php echo $propiedad['titulo'] ?> </td>
+                    <td><img src="/imagenes/<?php echo $propiedad['imagen'] ?>" class="imagen-tabla"></td>
+                    <td> <?php echo $propiedad['precio'] ?> </td>
+                    <td>
+                        <a href="#" class="boton-rojo-block">Eliminar</a>
+                        <a href="#" class="boton-amarillo-block">Actualizar</a>
+                    </td>
+                </tr>
+            <?php endwhile; ?>
+
         </tbody>
     </table>
 </main>
 
-<?php incluirTemplate('footer'); ?>
+<?php 
+
+    // Cerrar la conexion
+    mysqli_close($db);
+
+    incluirTemplate('footer'); 
+
+?>
