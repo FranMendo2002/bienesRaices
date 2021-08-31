@@ -11,6 +11,13 @@
     &.exito {
         background-color: $verde;
     }
+    &.actualizado {
+        background-color: $amarillo;
+    }
+    &.warning {
+        background-color: $naranja;
+        margin-bottom: 1rem;
+    }
 }
 
 table.propiedades {
@@ -30,4 +37,8 @@ table.propiedades {
     .imagen-tabla {
         width: 10rem;
     }
+}
+
+.imagen-small {
+    width: 20rem;
 }

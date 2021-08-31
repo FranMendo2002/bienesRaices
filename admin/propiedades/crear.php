@@ -8,10 +8,6 @@
     $query = "SELECT * FROM vendedores";
     $resultado = mysqli_query($db, $query);
 
-    if($resultado) {
-
-    }
-
     // Areglo con mensajes de errores
     $errores = [];
     $titulo = '';
