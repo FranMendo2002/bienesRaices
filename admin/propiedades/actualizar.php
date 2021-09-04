@@ -1,5 +1,13 @@
 <?php
 
+    require '../../includes/funciones.php';
+    $auth = estaAutenticado();
+
+    if(!$auth) {
+        header('Location: /');
+    }
+
+
     // Validar la URL por ID válido
     $id = $_GET['id'];
     $id = filter_var($id, FILTER_VALIDATE_INT);
@@ -37,15 +45,6 @@
 
     // Ejecutar el codigo después de que el usuario envia el formulario
     if ($_SERVER["REQUEST_METHOD"] === 'POST') {
-
-        // echo "<pre>";
-        // var_dump($_POST);
-        // echo "</pre>";
-        
-
-        // echo "<pre>";
-        // var_dump($_FILES);
-        // echo "</pre>";
 
         $titulo = mysqli_real_escape_string($db, $_POST['titulo'] );
         $precio = mysqli_real_escape_string($db, $_POST['precio'] );
@@ -135,7 +134,6 @@
         }
     }
 
-    require '../../includes/funciones.php';
     incluirTemplate('header');
 ?>
 
